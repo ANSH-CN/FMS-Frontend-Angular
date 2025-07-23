@@ -15,6 +15,8 @@ jobs:
 
       - name: 🛡️ Run Trivy FS Scan using Docker
         run: |
+          sudo apt-get update
+          sudo apt-get install trivy 
           echo "🔍 Trivy scanning started..."
           docker run --rm -v ${{ github.workspace }}:/project aquasec/trivy fs --severity HIGH,CRITICAL /project > trivy-fs-report.txt || true
 
