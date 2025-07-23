@@ -16,7 +16,6 @@ jobs:
       - name: Install Trivy
         run: |
           sudo apt-get update
-          sudo apt-get upgrade
           sudo apt-get install trivy -y
 
       - name: 🛡️ Run Trivy Filesystem Scan
