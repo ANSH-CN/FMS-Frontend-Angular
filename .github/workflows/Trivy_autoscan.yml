@@ -3,8 +3,6 @@ name: 🔍 Trivy FS Scan
 on:
   push:
     branches: [main]
-  workflow_dispatch:
-
 jobs:
   fs-scan:
     runs-on: ubuntu-latest
