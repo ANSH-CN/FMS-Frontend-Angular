@@ -13,19 +13,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install Trivy
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget gnupg lsb-release
-          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy.gpg
-          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb stable main" | sudo tee /etc/apt/sources.list.d/trivy.list
-          sudo apt-get update
-          sudo apt-get install -y trivy
-
-      - name: 🛡️ Run Trivy Filesystem Scan
+      - name: 🛡️ Run Trivy FS Scan using Docker
         run: |
           echo "🔍 Trivy scanning started..."
-          trivy fs --severity HIGH,CRITICAL . > trivy-fs-report.txt || true
+          docker run --rm -v ${{ github.workspace }}:/project aquasec/trivy fs --severity HIGH,CRITICAL /project > trivy-fs-report.txt || true
 
       - name: 📤 Upload Trivy Report
         uses: actions/upload-artifact@v4
